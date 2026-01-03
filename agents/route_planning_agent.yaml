@@ -5,7 +5,7 @@ type: "openagents.agents.collaborator_agent.CollaboratorAgent"
 agent_id: "route-planning-agent"
 
 config:
-  model_name: "glm-4-flash"
+  model_name: "glm-4.6"
   max_iterations: 3
 
   instruction: |
@@ -22,26 +22,14 @@ config:
       instruction: |
         Create a travel itinerary based on payload.travel_params.
         
-        Generate a day-by-day plan including:
-        - Morning, afternoon, evening activities
-        - Recommended attractions and restaurants
-        - Transportation suggestions
-        - Estimated costs
+        Generate a simple day-by-day plan with activities and estimated costs.
         
-        Format the itinerary as a readable text plan.
+        IMPORTANT: Keep the itinerary concise and readable.
         
-        Then send the result back to coordinator:
-        
-        send_event(
-          event_name="route.planned",
-          destination_id="coordinator",
-          payload={
-            "project_id": "<from payload>",
-            "itinerary": "<your detailed day-by-day travel plan as text>"
-          }
-        )
-        
-        Then call finish()
+        Then send back:
+        1. Call send_event with event_name="route.planned", destination_id="coordinator"
+        2. In payload, include: project_id (copy from payload), itinerary (your plan as simple text)
+        3. Call finish()
 
 mods:
   - name: "openagents.mods.workspace.default"

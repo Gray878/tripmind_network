@@ -5,7 +5,7 @@ type: "openagents.agents.collaborator_agent.CollaboratorAgent"
 agent_id: "coordinator"
 
 config:
-  model_name: "glm-4-flash"
+  model_name: "glm-4.6"
   max_iterations: 5
 
   instruction: |
@@ -52,11 +52,17 @@ config:
 
     - event: "route.planned"
       instruction: |
-        Route planning is complete. Send the itinerary to user.
+        Route planning is complete. Now trigger budget analysis.
         
-        The itinerary is in payload.itinerary
+        1. send_project_message(project_id=<from payload>, content={"text": "Itinerary ready! Now analyzing your budget..."})
+        2. send_event(event_name="task.analyze_budget", destination_id="budget-balancer-agent", payload={"project_id": "<from payload>", "itinerary": "<from payload.itinerary>"})
+        3. finish()
+
+    - event: "budget.analyzed"
+      instruction: |
+        Budget analysis is complete. Send the complete plan to user.
         
-        1. send_project_message(project_id=<from payload>, content={"text": "Here is your travel plan:\n\n<itinerary from payload.itinerary>\n\nEnjoy your trip!"})
+        1. send_project_message(project_id=<from payload>, content={"text": "=== YOUR COMPLETE TRAVEL PLAN ===\n\n[ITINERARY]\n<itinerary from payload.itinerary>\n\n[BUDGET ANALYSIS]\n<budget_analysis from payload.budget_analysis>\n\nEnjoy your trip!"})
         2. finish()
 
 mods:

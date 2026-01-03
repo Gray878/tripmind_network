@@ -182,9 +182,7 @@
     "visibility": "network",
     "allowed_agents": null,
     "secret": "jD6Hz6yPFkImi4rQywRUM3bX8Tsk3OWU6NeKsE0fttshgxpWkufB1u7P4ynQDNVs",
-    "source_agent_group": "guest",
-    "quoted_message_id": null,
-    "quoted_text": null
+    "source_agent_group": "guest"
   },
   "03fb5b11-34b7-4c1a-80a8-0b1917d9a62e": {
     "event_name": "thread.direct_message.send",
@@ -209,9 +207,7 @@
     "visibility": "network",
     "allowed_agents": null,
     "secret": "jD6Hz6yPFkImi4rQywRUM3bX8Tsk3OWU6NeKsE0fttshgxpWkufB1u7P4ynQDNVs",
-    "source_agent_group": "guest",
-    "quoted_message_id": null,
-    "quoted_text": null
+    "source_agent_group": "guest"
   },
   "WiseCore6084_1767335224534_bip4sxldi": {
     "event_name": "thread.channels.list",
@@ -304,9 +300,7 @@
     "visibility": "network",
     "allowed_agents": null,
     "secret": "oTt0rVf66wCUp9xcQ994ClXmmISzMu4N6sHl7klBoQnQvhvKTjMnfAEBCAbImXFD",
-    "source_agent_group": "guest",
-    "quoted_message_id": null,
-    "quoted_text": null
+    "source_agent_group": "guest"
   },
   "b8fe9026-24dd-4265-aa80-d30afede94d0": {
     "event_name": "thread.reply.post",
@@ -412,6 +406,150 @@
     "visibility": "network",
     "allowed_agents": null,
     "secret": "jD6Hz6yPFkImi4rQywRUM3bX8Tsk3OWU6NeKsE0fttshgxpWkufB1u7P4ynQDNVs",
+    "source_agent_group": "guest"
+  },
+  "5ebc3a8d-1f0c-49c2-ab18-e8167530dfc1": {
+    "event_name": "thread.direct_message.send",
+    "source_id": "route-planning-agent",
+    "event_id": "5ebc3a8d-1f0c-49c2-ab18-e8167530dfc1",
+    "timestamp": 1767410308,
+    "source_type": "agent",
+    "destination_id": "coordinator",
+    "relevant_mod": null,
+    "requires_response": false,
+    "response_to": null,
+    "thread_name": null,
+    "payload": {
+      "target_agent_id": "coordinator",
+      "content": {
+        "text": "Based on your travel parameters, here is a simple 5-day itinerary for your trip from Shenzhen to Japan. Day 1: Departure from Shenzhen to Tokyo, arrive in the evening. Day 2: Visit Tokyo Tower and Meiji Shrine. Day 3: Explore Ueno Park and Akihabara. Day 4: Travel to Kyoto, visit Fushimi Inari Shrine. Day 5: Return to Tokyo, visit Asakusa and Senso-ji Temple. Estimated costs: transportation, accommodation, meals, and activities will vary based on your preferences and budget. Please let me know if you need more details or have any specific requests."
+      },
+      "message_type": "direct_message"
+    },
+    "metadata": {},
+    "text_representation": null,
+    "visibility": "network",
+    "allowed_agents": null,
+    "secret": "KToVfDrXpYQfkr2srHqJGOynGnWQ1s7712F41ZK2a9sWEL6nNBdINfklOWSOnkNO",
+    "source_agent_group": "guest",
+    "quoted_message_id": null,
+    "quoted_text": null
+  },
+  "WiseCore6084_1767411357553_uwhji8igw": {
+    "event_name": "thread.channels.list",
+    "source_id": "WiseCore6084",
+    "event_id": "WiseCore6084_1767411357553_uwhji8igw",
+    "timestamp": 1767411357,
+    "source_type": "agent",
+    "destination_id": "mod:openagents.mods.workspace.messaging",
+    "relevant_mod": null,
+    "requires_response": false,
+    "response_to": null,
+    "thread_name": null,
+    "payload": {
+      "action": "list_channels",
+      "message_type": "channel_info"
+    },
+    "metadata": {},
+    "text_representation": null,
+    "visibility": "network",
+    "allowed_agents": null,
+    "secret": "mTCox5fa6S1uWi8Ypbneh6OD6myQGSOw3oGccxvkwJHzh07Ir8iWNUi83XASHQ9L",
+    "source_agent_group": "guest"
+  },
+  "WiseCore6084_1767411357648_mqoymzxrb": {
+    "event_name": "thread.channel_messages.retrieve",
+    "source_id": "WiseCore6084",
+    "event_id": "WiseCore6084_1767411357648_mqoymzxrb",
+    "timestamp": 1767411357,
+    "source_type": "agent",
+    "destination_id": "mod:openagents.mods.workspace.messaging",
+    "relevant_mod": null,
+    "requires_response": false,
+    "response_to": null,
+    "thread_name": null,
+    "payload": {
+      "channel": "general",
+      "limit": 200,
+      "offset": 0
+    },
+    "metadata": {},
+    "text_representation": null,
+    "visibility": "network",
+    "allowed_agents": null,
+    "secret": "mTCox5fa6S1uWi8Ypbneh6OD6myQGSOw3oGccxvkwJHzh07Ir8iWNUi83XASHQ9L",
+    "source_agent_group": "guest"
+  },
+  "WiseCore6084_1767411367651_svzss4yor": {
+    "event_name": "thread.direct_messages.retrieve",
+    "source_id": "WiseCore6084",
+    "event_id": "WiseCore6084_1767411367651_svzss4yor",
+    "timestamp": 1767411367,
+    "source_type": "agent",
+    "destination_id": "mod:openagents.mods.workspace.messaging",
+    "relevant_mod": null,
+    "requires_response": false,
+    "response_to": null,
+    "thread_name": null,
+    "payload": {
+      "target_agent_id": "group-preference-agent",
+      "limit": 200,
+      "offset": 0
+    },
+    "metadata": {},
+    "text_representation": null,
+    "visibility": "network",
+    "allowed_agents": null,
+    "secret": "mTCox5fa6S1uWi8Ypbneh6OD6myQGSOw3oGccxvkwJHzh07Ir8iWNUi83XASHQ9L",
+    "source_agent_group": "guest"
+  },
+  "11431ef4-543e-4ff1-9435-0de0738af88b": {
+    "event_name": "thread.direct_message.send",
+    "source_id": "route-planning-agent",
+    "event_id": "11431ef4-543e-4ff1-9435-0de0738af88b",
+    "timestamp": 1767411443,
+    "source_type": "agent",
+    "destination_id": "coordinator",
+    "relevant_mod": null,
+    "requires_response": false,
+    "response_to": null,
+    "thread_name": null,
+    "payload": {
+      "target_agent_id": "coordinator",
+      "content": {
+        "text": "Based on your travel parameters, here is a simple 5-day itinerary for your trip to Japan:\n\nDay 1: Arrive in Tokyo, explore Shibuya and Harajuku\n- Cost: $100\nDay 2: Visit the Meiji Shrine and take a stroll in Yoyogi Park\n- Cost: $50\nDay 3: Travel to Kyoto, visit Fushimi Inari Shrine and Kinkaku-ji\n- Cost: $150\nDay 4: Explore the Arashiyama Bamboo Grove and Tenryu-ji Temple\n- Cost: $75\nDay 5: Return to Tokyo, visit the Tokyo Skytree and Odaiba\n- Cost: $100"
+      },
+      "message_type": "direct_message"
+    },
+    "metadata": {},
+    "text_representation": null,
+    "visibility": "network",
+    "allowed_agents": null,
+    "secret": "3ZoL1V26VHW6YiqX1vRlSm6muUtA1Gboi9FFXtmnSnMfKxBwaSh1els26Joq0u4r",
+    "source_agent_group": "guest",
+    "quoted_message_id": null,
+    "quoted_text": null
+  },
+  "WiseCore6084_1767414160759_txe6g4yx5": {
+    "event_name": "thread.channels.list",
+    "source_id": "WiseCore6084",
+    "event_id": "WiseCore6084_1767414160759_txe6g4yx5",
+    "timestamp": 1767414160,
+    "source_type": "agent",
+    "destination_id": "mod:openagents.mods.workspace.messaging",
+    "relevant_mod": null,
+    "requires_response": false,
+    "response_to": null,
+    "thread_name": null,
+    "payload": {
+      "action": "list_channels",
+      "message_type": "channel_info"
+    },
+    "metadata": {},
+    "text_representation": null,
+    "visibility": "network",
+    "allowed_agents": null,
+    "secret": "ua1tGSmQRAjsaJNbZkUYGRdJZj4Uh18v7Q8iLijfDJ0cVrmWrdlHpo97bTKH6ax8",
     "source_agent_group": "guest"
   }
 }
