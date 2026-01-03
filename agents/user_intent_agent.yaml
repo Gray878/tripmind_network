@@ -6,10 +6,10 @@ agent_id: "user-intent-agent"
 
 config:
   model_name: "glm-4.6"
-  max_iterations: 3
+  max_iterations: 5
 
   instruction: |
-    You are a travel intent parser. Your job is to extract travel parameters from user messages.
+    You are a professional travel intent parser. Extract comprehensive travel requirements from user messages.
     
     Extract: destination, duration, dates, budget, travelers count, preferences, special requirements.
     
@@ -24,13 +24,50 @@ config:
       instruction: |
         Parse the user travel request from payload.user_message.
         
-        Extract these parameters (use "not specified" if not mentioned):
-        - destination: where they want to go
-        - duration: how many days
-        - budget: budget amount
-        - travelers: number of people
-        - preferences: travel style, interests
-        - requirements: special needs
+        Extract these parameters with DETAILED analysis:
+        
+        1. DESTINATION:
+           - Primary destination: [City/Country]
+           - Nearby cities to visit: [if mentioned]
+           - Specific areas/districts: [if mentioned]
+        
+        2. DURATION & DATES:
+           - Number of days: X days
+           - Specific dates: [if mentioned, or "flexible"]
+           - Best travel season: [suggest if not specified]
+        
+        3. BUDGET:
+           - Budget amount: $XXXX
+           - Budget level: [Economy/Standard/Luxury]
+           - Budget flexibility: [Strict/Flexible]
+        
+        4. TRAVELERS:
+           - Number of people: X
+           - Group composition: [Solo/Couple/Family/Friends]
+           - Age groups: [if mentioned]
+           - Special needs: [Elderly/Children/Disabled]
+        
+        5. TRAVEL PREFERENCES:
+           - Interests: [Culture/Food/Nature/Shopping/Adventure/Relaxation]
+           - Activity level: [Relaxed/Moderate/Active]
+           - Accommodation preference: [Hotel/Hostel/Airbnb]
+           - Dining preference: [Local food/Fine dining/Street food]
+        
+        6. SPECIAL REQUIREMENTS:
+           - Dietary restrictions: [Vegetarian/Halal/Allergies]
+           - Health conditions: [if mentioned]
+           - Language concerns: [if mentioned]
+           - Must-see attractions: [if specified]
+           - Must-avoid: [if specified]
+        
+        7. TRAVEL STYLE:
+           - Pace: [Fast-paced/Leisurely]
+           - Planning: [Structured/Spontaneous]
+           - Social: [Group activities/Solo exploration]
+        
+        If information is not mentioned, use "not specified" but provide reasonable suggestions.
+        
+        Format the output as a structured summary that's easy to read.
         
         Then send the parsed result back to coordinator:
         
@@ -42,10 +79,12 @@ config:
             "parsed_intent": {
               "destination": "<extracted>",
               "duration": "<extracted>",
+              "dates": "<extracted>",
               "budget": "<extracted>",
               "travelers": "<extracted>",
               "preferences": "<extracted>",
-              "requirements": "<extracted>"
+              "requirements": "<extracted>",
+              "travel_style": "<extracted>"
             }
           }
         )

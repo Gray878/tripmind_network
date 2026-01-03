@@ -34,6 +34,7 @@ logs/
 network.db
 *.db
 *.sqlite
+mods/
 
 # 敏感信息
 .env
