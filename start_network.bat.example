@@ -1,0 +1,112 @@
+@echo off
+echo ========================================
+echo   启动 TripMind Network 和 Studio
+echo ========================================
+echo.
+
+REM ⚠️ 重要：请将此文件复制为 start_network.bat，并填入你的 OpenAI API Key
+REM 复制命令：copy start_network.bat.example start_network.bat
+
+REM ============================================
+REM 模型配置：根据你使用的模型提供商，取消对应行的注释
+REM ============================================
+
+REM 方案一：OpenAI（默认）
+set OPENAI_API_KEY=your-openai-api-key-here
+
+REM 方案二：阿里云通义千问（推荐国内用户）
+REM set DASHSCOPE_API_KEY=your-dashscope-api-key-here
+
+REM 方案三：智谱 AI GLM
+REM set ZHIPUAI_API_KEY=your-zhipuai-api-key-here
+
+REM 方案四：百度文心一言
+REM set QIANFAN_ACCESS_KEY=your-qianfan-access-key-here
+REM set QIANFAN_SECRET_KEY=your-qianfan-secret-key-here
+
+REM 方案五：Anthropic Claude
+REM set ANTHROPIC_API_KEY=your-anthropic-api-key-here
+
+REM 方案六：Google Gemini
+REM set GOOGLE_API_KEY=your-google-api-key-here
+
+REM 方案七：月之暗面 Moonshot (Kimi)
+REM set MOONSHOT_API_KEY=your-moonshot-api-key-here
+
+REM 方案八：DeepSeek
+REM set DEEPSEEK_API_KEY=your-deepseek-api-key-here
+
+REM 方案九：本地 Ollama（无需 API Key）
+REM 确保 Ollama 服务正在运行：ollama serve
+
+REM ============================================
+
+REM 检查是否至少设置了一个 API Key
+if "%OPENAI_API_KEY%"=="your-openai-api-key-here" (
+    if not defined DASHSCOPE_API_KEY (
+        if not defined ZHIPUAI_API_KEY (
+            if not defined ANTHROPIC_API_KEY (
+                echo ❌ 错误：请先设置 API Key！
+                echo.
+                echo 步骤：
+                echo 1. 复制此文件为 start_network.bat
+                echo 2. 编辑 start_network.bat
+                echo 3. 根据你使用的模型提供商，设置对应的 API Key
+                echo 4. 保存并重新运行
+                echo.
+                echo 支持的模型提供商：
+                echo   - OpenAI: https://platform.openai.com/
+                echo   - 通义千问: https://dashscope.console.aliyun.com/
+                echo   - 智谱 GLM: https://open.bigmodel.cn/
+                echo   - 百度文心: https://console.bce.baidu.com/qianfan/
+                echo   - Claude: https://console.anthropic.com/
+                echo   - Gemini: https://makersuite.google.com/
+                echo   - Moonshot: https://platform.moonshot.cn/
+                echo   - DeepSeek: https://platform.deepseek.com/
+                echo   - Ollama: https://ollama.ai/ (本地，免费)
+                echo.
+                echo 详细配置说明请查看 MODEL_CONFIG.md
+                echo.
+                pause
+                exit /b 1
+            )
+        )
+    )
+)
+
+REM 激活 conda 环境
+call conda activate openagents
+
+REM 启动 Network
+echo [1/2] 启动 OpenAgents Network...
+echo   - HTTP 端口: 8700
+echo   - gRPC 端口: 8600
+echo.
+start "OpenAgents Network" cmd /k "conda activate openagents && set OPENAI_API_KEY=%OPENAI_API_KEY% && openagents network start ."
+
+REM 等待 Network 启动
+echo 等待 Network 启动...
+timeout /t 5 /nobreak > nul
+
+REM 启动 Studio
+echo [2/2] 启动 OpenAgents Studio...
+echo   - Studio 端口: 8050
+echo.
+start "OpenAgents Studio" cmd /k "conda activate openagents && openagents studio -s"
+
+REM 等待 Studio 启动
+echo 等待 Studio 启动...
+timeout /t 3 /nobreak > nul
+
+echo.
+echo ========================================
+echo   启动完成！
+echo ========================================
+echo.
+echo Network: http://localhost:8700
+echo Studio:  http://localhost:8050
+echo.
+echo 接下来请运行 start_agents.bat 启动所有 Agent
+echo.
+echo 按任意键关闭此窗口...
+pause > nul

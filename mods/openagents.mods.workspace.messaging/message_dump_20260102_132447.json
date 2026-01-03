@@ -1,0 +1,164 @@
+{
+  "WiseCore6084_1767287192082_g6xognyp3": {
+    "event_name": "thread.channels.list",
+    "source_id": "WiseCore6084",
+    "event_id": "WiseCore6084_1767287192082_g6xognyp3",
+    "timestamp": 1767287192,
+    "source_type": "agent",
+    "destination_id": "mod:openagents.mods.workspace.messaging",
+    "relevant_mod": null,
+    "requires_response": false,
+    "response_to": null,
+    "thread_name": null,
+    "payload": {
+      "action": "list_channels",
+      "message_type": "channel_info"
+    },
+    "metadata": {},
+    "text_representation": null,
+    "visibility": "network",
+    "allowed_agents": null,
+    "secret": "VROzhNw6OVii9S5J4TG2t9BG4I50y0Bui2mVWm6oDX4TCrxZ2RrPrd3Jud2Dobh3",
+    "source_agent_group": "guest"
+  },
+  "WiseCore6084_1767287192229_2qb5e8t47": {
+    "event_name": "thread.channel_messages.retrieve",
+    "source_id": "WiseCore6084",
+    "event_id": "WiseCore6084_1767287192229_2qb5e8t47",
+    "timestamp": 1767287192,
+    "source_type": "agent",
+    "destination_id": "mod:openagents.mods.workspace.messaging",
+    "relevant_mod": null,
+    "requires_response": false,
+    "response_to": null,
+    "thread_name": null,
+    "payload": {
+      "channel": "general",
+      "limit": 200,
+      "offset": 0
+    },
+    "metadata": {},
+    "text_representation": null,
+    "visibility": "network",
+    "allowed_agents": null,
+    "secret": "VROzhNw6OVii9S5J4TG2t9BG4I50y0Bui2mVWm6oDX4TCrxZ2RrPrd3Jud2Dobh3",
+    "source_agent_group": "guest"
+  },
+  "WiseCore6084_1767287834290_999fmun2r": {
+    "event_name": "thread.channels.list",
+    "source_id": "WiseCore6084",
+    "event_id": "WiseCore6084_1767287834290_999fmun2r",
+    "timestamp": 1767287834,
+    "source_type": "agent",
+    "destination_id": "mod:openagents.mods.workspace.messaging",
+    "relevant_mod": null,
+    "requires_response": false,
+    "response_to": null,
+    "thread_name": null,
+    "payload": {
+      "action": "list_channels",
+      "message_type": "channel_info"
+    },
+    "metadata": {},
+    "text_representation": null,
+    "visibility": "network",
+    "allowed_agents": null,
+    "secret": "HCzpOgO5mtXLj6CZlpi1RzfPgT3QeamJ5mqCgUl51L1o4nNpgYyCzzsd8zzVmK1G",
+    "source_agent_group": "guest"
+  },
+  "WiseCore6084_1767330342780_bsi05ru6b": {
+    "event_name": "thread.channels.list",
+    "source_id": "WiseCore6084",
+    "event_id": "WiseCore6084_1767330342780_bsi05ru6b",
+    "timestamp": 1767330342,
+    "source_type": "agent",
+    "destination_id": "mod:openagents.mods.workspace.messaging",
+    "relevant_mod": null,
+    "requires_response": false,
+    "response_to": null,
+    "thread_name": null,
+    "payload": {
+      "action": "list_channels",
+      "message_type": "channel_info"
+    },
+    "metadata": {},
+    "text_representation": null,
+    "visibility": "network",
+    "allowed_agents": null,
+    "secret": "pjk4OmZe2NX3cHlGPit0Z3lW5jusd7WwGPicZcm2TDMLpQQhLZCHKSyrpFMzjo8g",
+    "source_agent_group": "guest"
+  },
+  "WiseCore6084_1767330346323_5locphrrx": {
+    "event_name": "thread.channel_messages.retrieve",
+    "source_id": "WiseCore6084",
+    "event_id": "WiseCore6084_1767330346323_5locphrrx",
+    "timestamp": 1767330346,
+    "source_type": "agent",
+    "destination_id": "mod:openagents.mods.workspace.messaging",
+    "relevant_mod": null,
+    "requires_response": false,
+    "response_to": null,
+    "thread_name": null,
+    "payload": {
+      "channel": "general",
+      "limit": 200,
+      "offset": 0
+    },
+    "metadata": {},
+    "text_representation": null,
+    "visibility": "network",
+    "allowed_agents": null,
+    "secret": "pjk4OmZe2NX3cHlGPit0Z3lW5jusd7WwGPicZcm2TDMLpQQhLZCHKSyrpFMzjo8g",
+    "source_agent_group": "guest"
+  },
+  "43174634-bf8d-4bc7-bff6-f8ba2d6fd5db": {
+    "event_name": "thread.direct_message.send",
+    "source_id": "user-intent-agent",
+    "event_id": "43174634-bf8d-4bc7-bff6-f8ba2d6fd5db",
+    "timestamp": 1767330380,
+    "source_type": "agent",
+    "destination_id": "WiseCore6084",
+    "relevant_mod": null,
+    "requires_response": false,
+    "response_to": null,
+    "thread_name": null,
+    "payload": {
+      "target_agent_id": "WiseCore6084",
+      "content": {
+        "text": "\u60a8\u597d\uff0c\u6b22\u8fce\u6765\u5230TripMind\u65c5\u884c\u89c4\u5212\u7cfb\u7edf\uff01\u8bf7\u95ee\u60a8\u60f3\u53bb\u54ea\u4e2a\u76ee\u7684\u5730\u65c5\u884c\uff1f"
+      },
+      "message_type": "direct_message"
+    },
+    "metadata": {},
+    "text_representation": null,
+    "visibility": "network",
+    "allowed_agents": null,
+    "secret": "nsSxDotiIr0X49JYxuBhEesnfh6Y3e3TBVG7dUVjQDakuURJFRQaRT6KVSaaSWJd",
+    "source_agent_group": "guest",
+    "quoted_message_id": null,
+    "quoted_text": null
+  },
+  "WiseCore6084_1767331486293_blhnub03t": {
+    "event_name": "thread.channel_messages.retrieve",
+    "source_id": "WiseCore6084",
+    "event_id": "WiseCore6084_1767331486293_blhnub03t",
+    "timestamp": 1767331487,
+    "source_type": "agent",
+    "destination_id": "mod:openagents.mods.workspace.messaging",
+    "relevant_mod": null,
+    "requires_response": false,
+    "response_to": null,
+    "thread_name": null,
+    "payload": {
+      "channel": "general",
+      "limit": 200,
+      "offset": 0
+    },
+    "metadata": {},
+    "text_representation": null,
+    "visibility": "network",
+    "allowed_agents": null,
+    "secret": "VpRaFKofMuZe7GbPaiO9ze1BTtfNaNk03Y7vVJh1a0R2rTmVgzpgjq7c9lO390bx",
+    "source_agent_group": "guest"
+  }
+}

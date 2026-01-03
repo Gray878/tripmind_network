@@ -1,0 +1,45 @@
+{
+  "event_type": "voting_request",
+  "timestamp": "2026-01-02T14:00:00Z",
+  "data": {
+    "session_id": "session_20260101_002",
+    "voting_topic": "第三天下午活动选择",
+    "voting_rule": "simple_majority",
+    "options": [
+      {
+        "option_id": "option_001",
+        "description": "徒步虎跳峡（高强度，风景壮观）",
+        "estimated_duration": "4小时",
+        "cost_per_person": 150,
+        "intensity": "高",
+        "pros": ["风景震撼", "锻炼身体", "团队协作"],
+        "cons": ["体力消耗大", "有一定危险性"]
+      },
+      {
+        "option_id": "option_002",
+        "description": "游览丽江古城（中等强度，文化体验）",
+        "estimated_duration": "3小时",
+        "cost_per_person": 50,
+        "intensity": "中",
+        "pros": ["文化体验", "拍照好看", "购物方便"],
+        "cons": ["人流较多", "商业化较重"]
+      },
+      {
+        "option_id": "option_003",
+        "description": "咖啡馆休闲+周边闲逛（低强度，放松休息）",
+        "estimated_duration": "2小时",
+        "cost_per_person": 80,
+        "intensity": "低",
+        "pros": ["轻松舒适", "自由度高", "适合聊天"],
+        "cons": ["体验感较弱", "可能无聊"]
+      }
+    ],
+    "voting_deadline": "2026-01-02T16:00:00Z",
+    "context": {
+      "current_fatigue_level": "中等",
+      "weather_forecast": "晴天",
+      "remaining_budget": "充足",
+      "previous_activities": "上午参观了玉龙雪山（高强度）"
+    }
+  }
+}

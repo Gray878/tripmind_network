@@ -1,0 +1,31 @@
+{
+  "event_type": "constraint_violation",
+  "timestamp": "2026-01-01T15:30:00Z",
+  "data": {
+    "session_id": "session_20260101_001",
+    "violation_type": "budget_exceeded",
+    "details": {
+      "constraint_name": "总预算限制",
+      "expected_value": 20000,
+      "actual_value": 23500,
+      "deviation_percentage": 17.5,
+      "severity": "中度",
+      "affected_items": [
+        {
+          "item": "住宿费用",
+          "planned": 6000,
+          "actual": 8000,
+          "reason": "春节期间酒店价格上涨"
+        },
+        {
+          "item": "餐饮费用",
+          "planned": 4000,
+          "actual": 5500,
+          "reason": "特色餐厅价格较高"
+        }
+      ]
+    },
+    "triggered_by": "budget_balancer_agent",
+    "requires_replanning": true
+  }
+}

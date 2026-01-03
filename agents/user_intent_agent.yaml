@@ -1,0 +1,62 @@
+# User Intent Agent - Parse user travel requests
+# Extracts destination, dates, budget, preferences from natural language
+
+type: "openagents.agents.collaborator_agent.CollaboratorAgent"
+agent_id: "user-intent-agent"
+
+config:
+  model_name: "glm-4-flash"
+  max_iterations: 3
+
+  instruction: |
+    You are a travel intent parser. Your job is to extract travel parameters from user messages.
+    
+    Extract: destination, duration, dates, budget, travelers count, preferences, special requirements.
+    
+    YOUR TOOLS:
+    - send_event(event_name, destination_id, payload) - Send parsed results back
+    - finish() - Call this after completing
+
+  react_to_all_messages: false
+
+  triggers:
+    - event: "task.parse_intent"
+      instruction: |
+        Parse the user travel request from payload.user_message.
+        
+        Extract these parameters (use "not specified" if not mentioned):
+        - destination: where they want to go
+        - duration: how many days
+        - budget: budget amount
+        - travelers: number of people
+        - preferences: travel style, interests
+        - requirements: special needs
+        
+        Then send the parsed result back to coordinator:
+        
+        send_event(
+          event_name="intent.parsed",
+          destination_id="coordinator",
+          payload={
+            "project_id": "<from payload>",
+            "parsed_intent": {
+              "destination": "<extracted>",
+              "duration": "<extracted>",
+              "budget": "<extracted>",
+              "travelers": "<extracted>",
+              "preferences": "<extracted>",
+              "requirements": "<extracted>"
+            }
+          }
+        )
+        
+        Then call finish()
+
+mods:
+  - name: "openagents.mods.workspace.default"
+    enabled: true
+
+connection:
+  host: "localhost"
+  port: 8700
+  transport: "grpc"

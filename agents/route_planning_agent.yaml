@@ -1,0 +1,53 @@
+# Route Planning Agent - Generate travel itinerary
+# Creates day-by-day travel plans based on parsed parameters
+
+type: "openagents.agents.collaborator_agent.CollaboratorAgent"
+agent_id: "route-planning-agent"
+
+config:
+  model_name: "glm-4-flash"
+  max_iterations: 3
+
+  instruction: |
+    You are a travel route planner. Create detailed day-by-day itineraries.
+    
+    YOUR TOOLS:
+    - send_event(event_name, destination_id, payload) - Send planned route back
+    - finish() - Call this after completing
+
+  react_to_all_messages: false
+
+  triggers:
+    - event: "task.plan_route"
+      instruction: |
+        Create a travel itinerary based on payload.travel_params.
+        
+        Generate a day-by-day plan including:
+        - Morning, afternoon, evening activities
+        - Recommended attractions and restaurants
+        - Transportation suggestions
+        - Estimated costs
+        
+        Format the itinerary as a readable text plan.
+        
+        Then send the result back to coordinator:
+        
+        send_event(
+          event_name="route.planned",
+          destination_id="coordinator",
+          payload={
+            "project_id": "<from payload>",
+            "itinerary": "<your detailed day-by-day travel plan as text>"
+          }
+        )
+        
+        Then call finish()
+
+mods:
+  - name: "openagents.mods.workspace.default"
+    enabled: true
+
+connection:
+  host: "localhost"
+  port: 8700
+  transport: "grpc"

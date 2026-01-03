@@ -1,0 +1,33 @@
+{
+  "event_type": "mood_update",
+  "timestamp": "2026-01-03T18:00:00Z",
+  "data": {
+    "session_id": "session_20260101_001",
+    "traveler_id": "user_001",
+    "current_day": 3,
+    "mood_state": {
+      "overall_mood": "疲惫",
+      "energy_level": "低",
+      "social_willingness": "弱",
+      "adventure_spirit": "弱",
+      "stress_level": "中",
+      "mood_description": "连续两天高强度游览后感觉很累，孩子们也有些烦躁，希望明天能轻松一些。"
+    },
+    "context": {
+      "previous_activities": [
+        "上午参观武侯祠（2小时）",
+        "中午品尝火锅（1.5小时）",
+        "下午游览宽窄巷子（3小时）",
+        "晚上观看川剧变脸（1.5小时）"
+      ],
+      "fatigue_score": 75,
+      "weather": "阴雨",
+      "group_feedback": "孩子们说脚疼，老人也觉得有点累"
+    },
+    "adjustment_request": {
+      "preferred_activities": ["轻松", "室内", "休闲"],
+      "avoid_activities": ["长时间步行", "户外", "高强度"],
+      "special_needs": ["需要更多休息时间", "希望有午休"]
+    }
+  }
+}

@@ -1,0 +1,71 @@
+# Coordinator Agent - TripMind Travel Planning Coordinator
+# Receives user requests, coordinates other agents, compiles results
+
+type: "openagents.agents.collaborator_agent.CollaboratorAgent"
+agent_id: "coordinator"
+
+config:
+  model_name: "glm-4-flash"
+  max_iterations: 5
+
+  instruction: |
+    You are TripMind Coordinator. You coordinate travel planning by delegating tasks to specialized agents.
+    
+    YOUR TOOLS:
+    - send_project_message(project_id, content) - Reply to user. content MUST be {"text": "message"}
+    - send_event(event_name, destination_id, payload) - Delegate tasks to other agents
+    - finish() - Call this after completing your actions
+    
+    WORKFLOW:
+    1. When user sends a travel request, delegate to user-intent-agent for parsing
+    2. When intent parsing is complete, delegate to route-planning-agent for itinerary
+    3. When route planning is complete, send the final plan to user
+
+  react_to_all_messages: false
+
+  triggers:
+    - event: "project.notification.started"
+      instruction: |
+        Project started. Welcome the user.
+        1. send_project_message(project_id=<from payload>, content={"text": "Welcome to TripMind! Please tell me your travel plans - destination, dates, and preferences."})
+        2. finish()
+
+    - event: "project.notification.message_received"
+      instruction: |
+        User sent a message with travel request. Delegate to user-intent-agent for parsing.
+        
+        The user message is in payload.content.text
+        
+        1. send_project_message(project_id=<from payload>, content={"text": "Got it! Analyzing your travel requirements..."})
+        2. send_event(event_name="task.parse_intent", destination_id="user-intent-agent", payload={"project_id": "<from payload>", "user_message": "<user message from payload.content.text>"})
+        3. finish()
+
+    - event: "intent.parsed"
+      instruction: |
+        User intent has been parsed. Now delegate to route-planning-agent.
+        
+        The parsed intent is in payload.parsed_intent
+        
+        1. send_project_message(project_id=<from payload>, content={"text": "Requirements analyzed! Now planning your itinerary..."})
+        2. send_event(event_name="task.plan_route", destination_id="route-planning-agent", payload={"project_id": "<from payload>", "travel_params": "<parsed_intent from payload>"})
+        3. finish()
+
+    - event: "route.planned"
+      instruction: |
+        Route planning is complete. Send the itinerary to user.
+        
+        The itinerary is in payload.itinerary
+        
+        1. send_project_message(project_id=<from payload>, content={"text": "Here is your travel plan:\n\n<itinerary from payload.itinerary>\n\nEnjoy your trip!"})
+        2. finish()
+
+mods:
+  - name: "openagents.mods.workspace.project"
+    enabled: true
+  - name: "openagents.mods.workspace.default"
+    enabled: true
+
+connection:
+  host: "localhost"
+  port: 8700
+  transport: "grpc"

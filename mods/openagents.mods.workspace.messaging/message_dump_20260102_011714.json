@@ -1,0 +1,69 @@
+{
+  "WiseCore6084_1767287192082_g6xognyp3": {
+    "event_name": "thread.channels.list",
+    "source_id": "WiseCore6084",
+    "event_id": "WiseCore6084_1767287192082_g6xognyp3",
+    "timestamp": 1767287192,
+    "source_type": "agent",
+    "destination_id": "mod:openagents.mods.workspace.messaging",
+    "relevant_mod": null,
+    "requires_response": false,
+    "response_to": null,
+    "thread_name": null,
+    "payload": {
+      "action": "list_channels",
+      "message_type": "channel_info"
+    },
+    "metadata": {},
+    "text_representation": null,
+    "visibility": "network",
+    "allowed_agents": null,
+    "secret": "VROzhNw6OVii9S5J4TG2t9BG4I50y0Bui2mVWm6oDX4TCrxZ2RrPrd3Jud2Dobh3",
+    "source_agent_group": "guest"
+  },
+  "WiseCore6084_1767287192229_2qb5e8t47": {
+    "event_name": "thread.channel_messages.retrieve",
+    "source_id": "WiseCore6084",
+    "event_id": "WiseCore6084_1767287192229_2qb5e8t47",
+    "timestamp": 1767287192,
+    "source_type": "agent",
+    "destination_id": "mod:openagents.mods.workspace.messaging",
+    "relevant_mod": null,
+    "requires_response": false,
+    "response_to": null,
+    "thread_name": null,
+    "payload": {
+      "channel": "general",
+      "limit": 200,
+      "offset": 0
+    },
+    "metadata": {},
+    "text_representation": null,
+    "visibility": "network",
+    "allowed_agents": null,
+    "secret": "VROzhNw6OVii9S5J4TG2t9BG4I50y0Bui2mVWm6oDX4TCrxZ2RrPrd3Jud2Dobh3",
+    "source_agent_group": "guest"
+  },
+  "WiseCore6084_1767287834290_999fmun2r": {
+    "event_name": "thread.channels.list",
+    "source_id": "WiseCore6084",
+    "event_id": "WiseCore6084_1767287834290_999fmun2r",
+    "timestamp": 1767287834,
+    "source_type": "agent",
+    "destination_id": "mod:openagents.mods.workspace.messaging",
+    "relevant_mod": null,
+    "requires_response": false,
+    "response_to": null,
+    "thread_name": null,
+    "payload": {
+      "action": "list_channels",
+      "message_type": "channel_info"
+    },
+    "metadata": {},
+    "text_representation": null,
+    "visibility": "network",
+    "allowed_agents": null,
+    "secret": "HCzpOgO5mtXLj6CZlpi1RzfPgT3QeamJ5mqCgUl51L1o4nNpgYyCzzsd8zzVmK1G",
+    "source_agent_group": "guest"
+  }
+}

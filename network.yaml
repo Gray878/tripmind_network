@@ -1,0 +1,74 @@
+network:
+  name: TripMindNetwork
+  mode: centralized
+  node_id: tripmind-1
+  initialized: true
+  
+  # Security configuration - disabled for development
+  encryption_enabled: false
+  
+  # Agent authentication - no password required
+  default_agent_group: "guest"
+  requires_password: false
+  
+  transports:
+  - type: http
+    config:
+      port: 8700
+      serve_studio: true
+  - type: grpc
+    config:
+      port: 8600
+  mods:
+  - name: openagents.mods.workspace.messaging
+    enabled: true
+    config:
+      default_channels:
+      - name: general
+        description: General communication channel
+  - name: openagents.mods.workspace.project
+    enabled: true
+    config:
+      max_concurrent_projects: 10
+      project_templates:
+        group_travel:
+          name: "Group Travel Planning"
+          description: "Plan a group trip with preference coordination and budget balancing"
+          agent_groups: ["guest"]
+          context: |
+            Group Travel Planning Workflow
+            
+            This project coordinates travel planning for groups:
+            - Coordinator: Receives requests, manages workflow, compiles results
+            - Analyzes group preferences and constraints
+            - Balances budget across all travelers
+            - Creates optimized itinerary
+            
+            User should provide: destination, number of travelers, dates, budget, and any special requirements.
+        
+        solo_travel:
+          name: "Solo Travel Planning"
+          description: "Plan a personalized solo trip with context-aware recommendations"
+          agent_groups: ["guest"]
+          context: |
+            Solo Travel Planning Workflow
+            
+            This project creates personalized travel plans:
+            - Coordinator: Receives requests, manages workflow
+            - Analyzes travel style and interests
+            - Creates context-aware recommendations
+            - Builds detailed itinerary
+            
+            User should provide: destination, duration, travel style, interests, and budget.
+  - name: openagents.mods.workspace.default
+    enabled: true
+  created_by_version: 0.8.5
+network_profile:
+  name: TripMind - Group Travel Coordination & Context-Aware Planning
+  description: Intelligent multi-agent system for group travel planning with preference
+    coordination and context awareness
+  tags:
+  - travel
+  - group-coordination
+  - context-awareness
+  - multi-agent

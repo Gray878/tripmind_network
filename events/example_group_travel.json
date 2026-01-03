@@ -1,0 +1,52 @@
+{
+  "event_type": "user_input",
+  "timestamp": "2026-01-01T11:00:00Z",
+  "data": {
+    "user_id": "group_001",
+    "input_text": "我们是6个大学同学想在毕业后一起去云南旅行7天，预算每人5000元。我们有不同的偏好：有人喜欢徒步，有人喜欢拍照，有人喜欢美食。希望能平衡大家的需求，重要决策希望能投票决定。",
+    "input_mode": "text",
+    "session_id": "session_20260101_002",
+    "group_info": {
+      "is_group_travel": true,
+      "member_count": 6,
+      "members": [
+        {
+          "member_id": "member_001",
+          "name": "张三",
+          "preferences": ["徒步", "自然风光"],
+          "budget": 5000
+        },
+        {
+          "member_id": "member_002",
+          "name": "李四",
+          "preferences": ["摄影", "古镇"],
+          "budget": 5000
+        },
+        {
+          "member_id": "member_003",
+          "name": "王五",
+          "preferences": ["美食", "文化"],
+          "budget": 5000
+        },
+        {
+          "member_id": "member_004",
+          "name": "赵六",
+          "preferences": ["休闲", "咖啡馆"],
+          "budget": 4500
+        },
+        {
+          "member_id": "member_005",
+          "name": "孙七",
+          "preferences": ["探险", "户外"],
+          "budget": 5500
+        },
+        {
+          "member_id": "member_006",
+          "name": "周八",
+          "preferences": ["购物", "夜生活"],
+          "budget": 5000
+        }
+      ]
+    }
+  }
+}

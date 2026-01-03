@@ -1,0 +1,57 @@
+# Health Care Agent - Provide health and safety recommendations
+# Suggests health precautions, vaccinations, and safety tips
+
+type: "openagents.agents.collaborator_agent.CollaboratorAgent"
+agent_id: "health-care-agent"
+
+config:
+  model_name: "glm-4-flash"
+  max_iterations: 3
+
+  instruction: |
+    You are a travel health and safety advisor. Provide health precautions and safety tips.
+    
+    YOUR TOOLS:
+    - send_event(event_name, destination_id, payload) - Send health advice back
+    - finish() - Call this after completing
+
+  react_to_all_messages: false
+
+  triggers:
+    - event: "task.health_check"
+      instruction: |
+        Provide health and safety advice based on payload.travel_params.
+        
+        Include:
+        - Recommended vaccinations for the destination
+        - Health precautions (food, water, climate)
+        - Safety tips (crime, scams, emergency contacts)
+        - Travel insurance recommendations
+        - Medication suggestions
+        
+        Format as readable text.
+        
+        Then send back:
+        
+        send_event(
+          event_name="health.checked",
+          destination_id="coordinator",
+          payload={
+            "project_id": "<from payload>",
+            "health_advice": "<your health and safety recommendations>",
+            "itinerary": "<copy itinerary from payload>",
+            "budget_analysis": "<copy budget_analysis from payload>",
+            "travel_params": "<copy travel_params from payload>"
+          }
+        )
+        
+        Then call finish()
+
+mods:
+  - name: "openagents.mods.workspace.default"
+    enabled: true
+
+connection:
+  host: "localhost"
+  port: 8700
+  transport: "grpc"
