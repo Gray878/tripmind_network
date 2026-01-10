@@ -1,0 +1,24 @@
+{
+  "event_name": "info.scraping.requested",
+  "destination_id": "web-scraper-agent",
+  "payload": {
+    "project_id": "web_scraping_test_001",
+    "requester_id": "route-planning-agent",
+    "info_type": "attractions",
+    "query": {
+      "location": "东京",
+      "date_range": ["2024-03-01", "2024-03-07"],
+      "keywords": ["文化", "历史", "博物馆", "寺庙"],
+      "budget_range": [0, 500],
+      "preferences": ["传统文化", "历史古迹", "艺术展览"]
+    },
+    "priority": "high",
+    "timeout": 30
+  },
+  "metadata": {
+    "description": "测试网络抓取功能 - 东京文化景点信息抓取",
+    "test_scenario": "基础抓取功能验证",
+    "expected_result": "返回东京相关文化景点信息，触发信息分析流程",
+    "created_at": "2024-01-05T10:00:00Z"
+  }
+}
