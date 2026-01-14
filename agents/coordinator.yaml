@@ -5,7 +5,7 @@ type: "openagents.agents.collaborator_agent.CollaboratorAgent"
 agent_id: "coordinator"
 
 config:
-  model_name: "glm-4.6"
+  model_name: "glm-4.5"
   max_iterations: 5
 
   instruction: |
@@ -33,42 +33,34 @@ config:
       instruction: |
         Project started. Welcome the user warmly and explain the process.
         
-        1. send_project_message(project_id=<from payload>, content={"text": "Welcome to TripMind - Your AI Travel Planning Assistant!\n\nI'm here to help you create the perfect travel itinerary. Here's how it works:\n\n[1] Tell me your travel plans (destination, dates, budget, preferences)\n[2] I'll analyze your requirements\n[3] Create a detailed day-by-day itinerary\n[4] Provide comprehensive budget analysis\n\nPlease share your travel plans, for example:\n'I want to visit Tokyo for 5 days with a $2000 budget. I love temples, museums, and local food.'\n\nLet's start planning your amazing trip!"})
+        1. send_project_message(project_id=<from payload>, content={"text": "Welcome to TripMind - Your AI Travel Planning Assistant!\n\nI will help you create the perfect travel itinerary. Here's how it works:\n\n[1] Tell me your travel plans (destination, dates, budget, preferences)\n[2] I will create a detailed day-by-day itinerary for you\n\nPlease share your travel plans, for example:\n'I want to travel to Tokyo for 5 days with a budget of $3000. I like temples, museums, and local food.'\n\nLet's start planning your amazing trip!"})
         2. finish()
 
     - event: "project.notification.message_received"
       instruction: |
-        User sent a message with travel request. Delegate to user-intent-agent for parsing.
+        User sent a travel request message. Delegate to user-intent-agent for parsing.
         
-        The user message is in payload.content.text
+        User message is in payload.content.text
         
-        1. send_project_message(project_id=<from payload>, content={"text": "[OK] Got it! Let me analyze your travel requirements...\n\n[Step 1/3] Analyzing your preferences and requirements..."})
+        1. send_project_message(project_id=<from payload>, content={"text": "[Received] Great! Let me analyze your travel requirements...\n\n[Step 1/2] Analyzing your preferences and needs..."})
         2. send_event(event_name="task.parse_intent", destination_id="user-intent-agent", payload={"project_id": "<from payload>", "user_message": "<user message from payload.content.text>"})
         3. finish()
 
     - event: "intent.parsed"
       instruction: |
-        User intent has been parsed. Now delegate to route-planning-agent.
+        User intent has been parsed. Now start creating personalized itinerary.
         
-        The parsed intent is in payload.parsed_intent
+        Parsed intent information is in payload.parsed_intent
         
-        1. send_project_message(project_id=<from payload>, content={"text": "[OK] Requirements analyzed successfully!\n\n[Your Travel Profile]\n- Destination: [Extract from parsed_intent]\n- Duration: [Extract from parsed_intent]\n- Budget: [Extract from parsed_intent]\n- Interests: [Extract from parsed_intent]\n\n[Step 2/3] Creating your personalized itinerary...\n\nThis may take a moment as I craft the perfect day-by-day plan for you."})
-        2. send_event(event_name="task.plan_route", destination_id="route-planning-agent", payload={"project_id": "<from payload>", "travel_params": "<parsed_intent from payload>"})
+        1. send_project_message(project_id=<from payload>, content={"text": "[Complete] Requirements analysis successful!\n\n[Your Travel Profile]\n- Destination: [extract from parsed_intent]\n- Duration: [extract from parsed_intent]\n- Budget: [extract from parsed_intent]\n- Interests: [extract from parsed_intent]\n\n[Step 2/2] Creating your personalized itinerary...\n\nPlease wait while I craft the perfect day-by-day plan for you."})
+        2. send_event(event_name="intent.parsed", destination_id="route-planning-agent", payload={"project_id": "<from payload>", "parsed_intent": "<parsed_intent from payload>"})
         3. finish()
 
     - event: "route.planned"
       instruction: |
-        Route planning is complete. Now trigger budget analysis.
+        Route planning complete. Send the complete travel plan to user.
         
-        1. send_project_message(project_id=<from payload>, content={"text": "[OK] Itinerary created!\n\n[Step 3/3] Analyzing your budget and costs...\n\nCalculating detailed expenses for transportation, accommodation, food, and activities."})
-        2. send_event(event_name="task.analyze_budget", destination_id="budget-balancer-agent", payload={"project_id": "<from payload>", "itinerary": "<from payload.itinerary>"})
-        3. finish()
-
-    - event: "budget.analyzed"
-      instruction: |
-        Budget analysis is complete. Send the complete, professional travel plan to user.
-        
-        1. send_project_message(project_id=<from payload>, content={"text": "[SUCCESS] Your Complete Travel Plan is Ready!\n\n========================================\n[DETAILED ITINERARY]\n========================================\n\n<itinerary from payload.itinerary>\n\n========================================\n[BUDGET ANALYSIS]\n========================================\n\n<budget_analysis from payload.budget_analysis>\n\n========================================\n\nYour personalized travel plan is complete! Feel free to ask if you'd like any adjustments.\n\nHave an amazing trip!"})
+        1. send_project_message(project_id=<from payload>, content={"text": "[Success] Your complete travel plan is ready!\n\n========================================\nDETAILED ITINERARY\n========================================\n\n<itinerary from payload.itinerary>\n\n========================================\n\nYour personalized travel plan is complete! Feel free to ask if you need any adjustments.\n\nHave a wonderful trip!"})
         2. finish()
 
 mods:

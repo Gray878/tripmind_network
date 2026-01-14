@@ -5,7 +5,7 @@ type: "openagents.agents.collaborator_agent.CollaboratorAgent"
 agent_id: "route-planning-agent"
 
 config:
-  model_name: "glm-4.6"
+  model_name: "glm-4.5"
   max_iterations: 5
 
   instruction: |
@@ -32,62 +32,67 @@ config:
   react_to_all_messages: false
 
   triggers:
-    - event: "task.plan_route"
+    - event: "intent.parsed"
       instruction: |
-        Received route planning request, start creating travel itinerary.
+        Received parsed user intent. Generate detailed travel itinerary.
         
-        Request format: payload.travel_params contains user travel requirements
-        payload.project_id contains the project ID
+        Request format: payload.parsed_intent contains user travel requirements
+        payload.project_id contains project ID
         
         Execution steps:
         1. Extract project_id from payload.project_id
-        2. Analyze travel parameters from payload.travel_params, extract key information:
+        2. Analyze travel parameters from payload.parsed_intent, extract key info:
            - destination
-           - duration 
+           - duration
            - budget
            - preferences
-           - travelers
+           - travelers info
         
-        3. Determine if real-time information scraping is needed:
-           - For popular destinations like Japan, Tokyo, Kyoto, Osaka, always request scraping
-           - If specific preferences exist, request related info scraping
+        3. Generate detailed itinerary based on LLM knowledge, including:
+           - Daily detailed schedule (9:00-22:00)
+           - Specific attraction recommendations and addresses
+           - Restaurant recommendations and budget estimates
+           - Transportation suggestions
+           - Accommodation suggestions
+           - Shopping and entertainment activities
         
-        4. Decision: 
-           - IF scraping is needed:
-             a. Send scraping request:
-             send_event(
-               event_name="info.scraping.requested",
-               destination_id="web-scraper-agent",
-               payload={
-                 "project_id": "<from payload.project_id>",
-                 "requester_id": "route-planning-agent",
-                 "info_type": "attractions",
-                 "query": {
-                   "location": "<destination from travel_params>",
-                   "keywords": ["<preferences from travel_params>"],
-                   "budget_range": [0, <budget from travel_params>]
-                 },
-                 "priority": "high",
-                 "timeout": 30
-               }
-             )
-             b. Call finish() - wait for info.analysis.completed event to continue
-           
-           - IF scraping is NOT needed (rare case):
-             a. Generate itinerary directly using LLM knowledge
-             b. Send completion event:
-             send_event(
-               event_name="route.planned", 
-               destination_id="coordinator",
-               payload={
-                 "project_id": "<from payload.project_id>",
-                 "itinerary": "<detailed itinerary text>",
-                 "enhanced_with_realtime_data": false
-               }
-             )
-             c. Call finish()
+        4. Itinerary format example:
+        "=== [Destination] [Days]-Day Detailed Itinerary ===
         
-        IMPORTANT: After sending scraping request, you MUST call finish() and wait for info.analysis.completed event. Do NOT generate itinerary in the same trigger.
+        Day 1: Arrival and City Exploration
+        - 9:00-12:00: Visit [Attraction Name]
+          Address: [Specific Address]
+          Highlights: [Attraction Features]
+          Ticket: [Price Range]
+          Recommended Duration: [Time]
+          Transportation: [Specific Method]
+        
+        - 12:00-14:00: Lunch - [Restaurant Name]
+          Cuisine: [Type]
+          Recommended Dishes: [Specific Dishes]
+          Average Cost: [Price Range]
+        
+        [Continue with other time slots...]
+        
+        === Budget Estimate ===
+        Total Budget Estimate: $XXXX
+        Daily Average: $XXX
+        
+        === Practical Tips ===
+        [Travel advice and notes]"
+        
+        5. Send completion event:
+        send_event(
+          event_name="route.planned", 
+          destination_id="coordinator",
+          payload={
+            "project_id": "<from payload.project_id>",
+            "itinerary": "<detailed itinerary text>",
+            "enhanced_with_realtime_data": false
+          }
+        )
+        
+        6. Call finish() to complete task
 
     - event: "info.analysis.completed"
       instruction: |
@@ -134,8 +139,8 @@ config:
         [Integrate useful information from insights]
         
         === Budget Estimate ===
-        Total estimated cost: ¥XXXX
-        Daily average cost: ¥XXX"
+        Total estimated cost: $XXXX
+        Daily average cost: $XXX"
         
         Send completion event:
         send_event(

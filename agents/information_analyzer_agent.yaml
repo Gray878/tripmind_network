@@ -5,7 +5,7 @@ type: "openagents.agents.collaborator_agent.CollaboratorAgent"
 agent_id: "information-analyzer-agent"
 
 config:
-  model_name: "glm-4-plus"
+  model_name: "glm-4.5"
   max_iterations: 5
 
   instruction: |

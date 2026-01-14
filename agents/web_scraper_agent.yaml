@@ -5,7 +5,7 @@ type: "openagents.agents.collaborator_agent.CollaboratorAgent"
 agent_id: "web-scraper-agent"
 
 config:
-  model_name: "glm-4-flash"  # Use faster model for scraping tasks
+  model_name: "glm-4.5"  # Use faster model for scraping tasks
   max_iterations: 3
 
   instruction: |
