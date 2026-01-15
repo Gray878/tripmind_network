@@ -431,9 +431,7 @@
     "visibility": "network",
     "allowed_agents": null,
     "secret": "KToVfDrXpYQfkr2srHqJGOynGnWQ1s7712F41ZK2a9sWEL6nNBdINfklOWSOnkNO",
-    "source_agent_group": "guest",
-    "quoted_message_id": null,
-    "quoted_text": null
+    "source_agent_group": "guest"
   },
   "WiseCore6084_1767411357553_uwhji8igw": {
     "event_name": "thread.channels.list",
@@ -526,9 +524,7 @@
     "visibility": "network",
     "allowed_agents": null,
     "secret": "3ZoL1V26VHW6YiqX1vRlSm6muUtA1Gboi9FFXtmnSnMfKxBwaSh1els26Joq0u4r",
-    "source_agent_group": "guest",
-    "quoted_message_id": null,
-    "quoted_text": null
+    "source_agent_group": "guest"
   },
   "WiseCore6084_1767414160759_txe6g4yx5": {
     "event_name": "thread.channels.list",
@@ -550,6 +546,28 @@
     "visibility": "network",
     "allowed_agents": null,
     "secret": "ua1tGSmQRAjsaJNbZkUYGRdJZj4Uh18v7Q8iLijfDJ0cVrmWrdlHpo97bTKH6ax8",
+    "source_agent_group": "guest"
+  },
+  "WiseCore6084_1768413116169_2hxy4nd05": {
+    "event_name": "thread.channels.list",
+    "source_id": "WiseCore6084",
+    "event_id": "WiseCore6084_1768413116169_2hxy4nd05",
+    "timestamp": 1768413116,
+    "source_type": "agent",
+    "destination_id": "mod:openagents.mods.workspace.messaging",
+    "relevant_mod": null,
+    "requires_response": false,
+    "response_to": null,
+    "thread_name": null,
+    "payload": {
+      "action": "list_channels",
+      "message_type": "channel_info"
+    },
+    "metadata": {},
+    "text_representation": null,
+    "visibility": "network",
+    "allowed_agents": null,
+    "secret": "ObiK66HTflcRyZHmOvyuSd8wfqz7JWuf3tUWPHgpT9NaYcH4ugbcNVT4rKeo92zJ",
     "source_agent_group": "guest"
   }
 }

@@ -1,69 +1,80 @@
 @echo off
-REM 设置控制台编码为 UTF-8，解决中文乱码问题
+REM Set console encoding to UTF-8
 chcp 65001 > nul
 
 echo ========================================
-echo   启动 TripMind 所有 Agent
+echo   Starting TripMind All Agents
 echo ========================================
 echo.
 
-REM 确保在 openagents 环境中
+REM Ensure in openagents environment
 call conda activate openagents
 
-REM 从 start_network.bat 读取 API Key（需要先运行 start_network.bat）
+REM Read API Key from start_network.bat (need to run start_network.bat first)
 if "%ZHIPUAI_API_KEY%"=="" (
-    echo ⚠️  警告：未检测到 ZHIPUAI_API_KEY 环境变量
-    echo    请先运行 start_network.bat 或手动设置 API Key
+    echo Warning: ZHIPUAI_API_KEY environment variable not detected
+    echo    Please run start_network.bat first or set API Key manually
     echo.
-    set /p ZHIPUAI_API_KEY="请输入智谱 AI API Key: "
+    set /p ZHIPUAI_API_KEY="Enter ZhipuAI API Key: "
 )
 
-echo ✅ 使用智谱 AI API Key: %ZHIPUAI_API_KEY:~0,8%...
-echo ✅ 默认模型: glm-4.5
-echo ✅ API 端点: https://open.bigmodel.cn/api/paas/v4/
+echo Using ZhipuAI API Key: %ZHIPUAI_API_KEY:~0,8%...
+echo Default Model: glm-4.5
+echo API Endpoint: https://open.bigmodel.cn/api/paas/v4/
 echo.
 
-echo [核心协调层]
-echo [1/7] 启动 Coordinator Agent...
+echo [Core Coordination Layer]
+echo [1/9] Starting Coordinator Agent...
 start "Coordinator" cmd /k "chcp 65001 > nul && conda activate openagents && set PYTHONIOENCODING=utf-8&& set DEFAULT_LLM_PROVIDER=openai&& set DEFAULT_LLM_MODEL_NAME=glm-4.5&& set DEFAULT_LLM_API_KEY=%ZHIPUAI_API_KEY%&& set DEFAULT_LLM_BASE_URL=https://open.bigmodel.cn/api/paas/v4/&& set OPENAI_API_KEY=%ZHIPUAI_API_KEY%&& set OPENAI_BASE_URL=https://open.bigmodel.cn/api/paas/v4/&& openagents agent start agents/coordinator.yaml"
 timeout /t 2 /nobreak > nul
 
 echo.
-echo [用户意图层]
-echo [2/7] 启动 User Intent Agent...
+echo [User Intent Layer]
+echo [2/9] Starting User Intent Agent...
 start "User Intent" cmd /k "chcp 65001 > nul && conda activate openagents && set PYTHONIOENCODING=utf-8&& set DEFAULT_LLM_PROVIDER=openai&& set DEFAULT_LLM_MODEL_NAME=glm-4.5&& set DEFAULT_LLM_API_KEY=%ZHIPUAI_API_KEY%&& set DEFAULT_LLM_BASE_URL=https://open.bigmodel.cn/api/paas/v4/&& set OPENAI_API_KEY=%ZHIPUAI_API_KEY%&& set OPENAI_BASE_URL=https://open.bigmodel.cn/api/paas/v4/&& openagents agent start agents/user_intent_agent.yaml"
 timeout /t 2 /nobreak > nul
 
-echo [3/7] 启动 Group Preference Agent...
+echo [3/9] Starting Group Preference Agent...
 start "Group Preference" cmd /k "chcp 65001 > nul && conda activate openagents && set PYTHONIOENCODING=utf-8&& set DEFAULT_LLM_PROVIDER=openai&& set DEFAULT_LLM_MODEL_NAME=glm-4.5&& set DEFAULT_LLM_API_KEY=%ZHIPUAI_API_KEY%&& set DEFAULT_LLM_BASE_URL=https://open.bigmodel.cn/api/paas/v4/&& set OPENAI_API_KEY=%ZHIPUAI_API_KEY%&& set OPENAI_BASE_URL=https://open.bigmodel.cn/api/paas/v4/&& openagents agent start agents/group_preference_agent.yaml"
 timeout /t 2 /nobreak > nul
 
-echo [4/7] 启动 Budget Balancer Agent...
+echo [4/9] Starting Budget Balancer Agent...
 start "Budget Balancer" cmd /k "chcp 65001 > nul && conda activate openagents && set PYTHONIOENCODING=utf-8&& set DEFAULT_LLM_PROVIDER=openai&& set DEFAULT_LLM_MODEL_NAME=glm-4.5&& set DEFAULT_LLM_API_KEY=%ZHIPUAI_API_KEY%&& set DEFAULT_LLM_BASE_URL=https://open.bigmodel.cn/api/paas/v4/&& set OPENAI_API_KEY=%ZHIPUAI_API_KEY%&& set OPENAI_BASE_URL=https://open.bigmodel.cn/api/paas/v4/&& openagents agent start agents/budget_balancer_agent.yaml"
 timeout /t 2 /nobreak > nul
 
-echo [5/7] 启动 Health Care Agent...
+echo [5/9] Starting Health Care Agent...
 start "Health Care" cmd /k "chcp 65001 > nul && conda activate openagents && set PYTHONIOENCODING=utf-8&& set DEFAULT_LLM_PROVIDER=openai&& set DEFAULT_LLM_MODEL_NAME=glm-4.5&& set DEFAULT_LLM_API_KEY=%ZHIPUAI_API_KEY%&& set DEFAULT_LLM_BASE_URL=https://open.bigmodel.cn/api/paas/v4/&& set OPENAI_API_KEY=%ZHIPUAI_API_KEY%&& set OPENAI_BASE_URL=https://open.bigmodel.cn/api/paas/v4/&& openagents agent start agents/health_care_agent.yaml"
 timeout /t 2 /nobreak > nul
 
 echo.
-echo [规划执行层]
-echo [6/7] 启动 Route Planning Agent...
+echo [Information Layer]
+echo [6/9] Starting Web Scraper Agent...
+start "Web Scraper" cmd /k "chcp 65001 > nul && conda activate openagents && set PYTHONIOENCODING=utf-8&& set DEFAULT_LLM_PROVIDER=openai&& set DEFAULT_LLM_MODEL_NAME=glm-4.5&& set DEFAULT_LLM_API_KEY=%ZHIPUAI_API_KEY%&& set DEFAULT_LLM_BASE_URL=https://open.bigmodel.cn/api/paas/v4/&& set OPENAI_API_KEY=%ZHIPUAI_API_KEY%&& set OPENAI_BASE_URL=https://open.bigmodel.cn/api/paas/v4/&& openagents agent start agents/web_scraper_agent.yaml"
+timeout /t 2 /nobreak > nul
+
+echo [7/9] Starting Information Analyzer Agent...
+start "Information Analyzer" cmd /k "chcp 65001 > nul && conda activate openagents && set PYTHONIOENCODING=utf-8&& set DEFAULT_LLM_PROVIDER=openai&& set DEFAULT_LLM_MODEL_NAME=glm-4.5&& set DEFAULT_LLM_API_KEY=%ZHIPUAI_API_KEY%&& set DEFAULT_LLM_BASE_URL=https://open.bigmodel.cn/api/paas/v4/&& set OPENAI_API_KEY=%ZHIPUAI_API_KEY%&& set OPENAI_BASE_URL=https://open.bigmodel.cn/api/paas/v4/&& openagents agent start agents/information_analyzer_agent.yaml"
+timeout /t 2 /nobreak > nul
+
+echo.
+echo [Planning Execution Layer]
+echo [8/9] Starting Route Planning Agent...
 start "Route Planning" cmd /k "chcp 65001 > nul && conda activate openagents && set PYTHONIOENCODING=utf-8&& set DEFAULT_LLM_PROVIDER=openai&& set DEFAULT_LLM_MODEL_NAME=glm-4.5&& set DEFAULT_LLM_API_KEY=%ZHIPUAI_API_KEY%&& set DEFAULT_LLM_BASE_URL=https://open.bigmodel.cn/api/paas/v4/&& set OPENAI_API_KEY=%ZHIPUAI_API_KEY%&& set OPENAI_BASE_URL=https://open.bigmodel.cn/api/paas/v4/&& openagents agent start agents/route_planning_agent.yaml"
 timeout /t 2 /nobreak > nul
 
-echo [7/7] 启动 Dynamic Adjuster Agent...
+echo [9/9] Starting Dynamic Adjuster Agent...
 start "Dynamic Adjuster" cmd /k "chcp 65001 > nul && conda activate openagents && set PYTHONIOENCODING=utf-8&& set DEFAULT_LLM_PROVIDER=openai&& set DEFAULT_LLM_MODEL_NAME=glm-4.5&& set DEFAULT_LLM_API_KEY=%ZHIPUAI_API_KEY%&& set DEFAULT_LLM_BASE_URL=https://open.bigmodel.cn/api/paas/v4/&& set OPENAI_API_KEY=%ZHIPUAI_API_KEY%&& set OPENAI_BASE_URL=https://open.bigmodel.cn/api/paas/v4/&& openagents agent start agents/dynamic_adjuster_agent.yaml"
 
 echo.
 echo ========================================
-echo   所有 7 个 Agent 启动完成！
+echo   All 9 Agents Started!
 echo ========================================
 echo.
-echo Agent 架构：
-echo   核心协调层：Coordinator
-echo   用户意图层：User Intent, Group Preference, Budget Balancer, Health Care
-echo   规划执行层：Route Planning, Dynamic Adjuster
+echo Agent Architecture:
+echo   Core Coordination: Coordinator
+echo   User Intent: User Intent, Group Preference, Budget Balancer, Health Care
+echo   Information: Web Scraper, Information Analyzer
+echo   Planning: Route Planning, Dynamic Adjuster
 echo.
-echo 按任意键关闭此窗口...
+echo Press any key to close this window...
 pause > nul

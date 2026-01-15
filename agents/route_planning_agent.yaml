@@ -1,5 +1,6 @@
 # Route Planning Agent - Generate travel itinerary
 # Creates day-by-day travel plans based on parsed parameters
+# Requests web scraping for real-time information before generating itinerary
 
 type: "openagents.agents.collaborator_agent.CollaboratorAgent"
 agent_id: "route-planning-agent"
@@ -16,16 +17,15 @@ config:
     - finish() - Call after completing tasks
     
     Workflow:
-    1. Receive route planning request (task.plan_route)
-    2. Analyze travel parameters, determine information types to scrape
-    3. If real-time info needed, request web scraping first
-    4. Wait for scraping results or use default knowledge
-    5. Generate detailed itinerary
-    6. Send completion event to coordinator
+    1. Receive parsed intent (intent.parsed)
+    2. Request web scraping for real-time travel information
+    3. Wait for analysis results (info.analysis.completed)
+    4. Generate detailed itinerary based on real-time data
+    5. Send completion event to coordinator
     
     Important notes:
-    - Prioritize using scraped real-time information
-    - If scraping fails, use LLM default knowledge
+    - Always request web scraping first to get real-time information
+    - Use scraped data to enhance itinerary quality
     - Ensure itinerary is realistic and feasible
     - Include detailed time, location, cost information
 
@@ -34,65 +34,38 @@ config:
   triggers:
     - event: "intent.parsed"
       instruction: |
-        Received parsed user intent. Generate detailed travel itinerary.
+        Received parsed user intent. First request web scraping for real-time travel information.
         
         Request format: payload.parsed_intent contains user travel requirements
         payload.project_id contains project ID
         
         Execution steps:
         1. Extract project_id from payload.project_id
-        2. Analyze travel parameters from payload.parsed_intent, extract key info:
+        2. Extract travel parameters from payload.parsed_intent:
            - destination
            - duration
            - budget
            - preferences
-           - travelers info
         
-        3. Generate detailed itinerary based on LLM knowledge, including:
-           - Daily detailed schedule (9:00-22:00)
-           - Specific attraction recommendations and addresses
-           - Restaurant recommendations and budget estimates
-           - Transportation suggestions
-           - Accommodation suggestions
-           - Shopping and entertainment activities
-        
-        4. Itinerary format example:
-        "=== [Destination] [Days]-Day Detailed Itinerary ===
-        
-        Day 1: Arrival and City Exploration
-        - 9:00-12:00: Visit [Attraction Name]
-          Address: [Specific Address]
-          Highlights: [Attraction Features]
-          Ticket: [Price Range]
-          Recommended Duration: [Time]
-          Transportation: [Specific Method]
-        
-        - 12:00-14:00: Lunch - [Restaurant Name]
-          Cuisine: [Type]
-          Recommended Dishes: [Specific Dishes]
-          Average Cost: [Price Range]
-        
-        [Continue with other time slots...]
-        
-        === Budget Estimate ===
-        Total Budget Estimate: $XXXX
-        Daily Average: $XXX
-        
-        === Practical Tips ===
-        [Travel advice and notes]"
-        
-        5. Send completion event:
+        3. Request web scraping for attractions information:
         send_event(
-          event_name="route.planned", 
-          destination_id="coordinator",
+          event_name="info.scraping.requested",
+          destination_id="web-scraper-agent",
           payload={
             "project_id": "<from payload.project_id>",
-            "itinerary": "<detailed itinerary text>",
-            "enhanced_with_realtime_data": false
+            "requester_id": "route-planning-agent",
+            "info_type": "attractions",
+            "query": {
+              "location": "<destination from parsed_intent>",
+              "keywords": "<preferences from parsed_intent>",
+              "budget_range": "<budget from parsed_intent>"
+            },
+            "priority": "high",
+            "timeout": 30
           }
         )
         
-        6. Call finish() to complete task
+        4. Call finish() and wait for info.analysis.completed event
 
     - event: "info.analysis.completed"
       instruction: |
@@ -107,8 +80,7 @@ config:
         Execution steps:
         1. Extract payload.project_id
         2. Extract analysis results from payload.processed_data
-        3. Extract payload.requester_id to confirm this is for route-planning-agent
-        4. Generate detailed itinerary based on real-time data analysis results
+        3. Generate detailed itinerary based on real-time data analysis results
         
         Itinerary format requirements:
         - Include detailed daily schedule (9:00-22:00)
@@ -119,6 +91,8 @@ config:
         
         Itinerary format example:
         "=== [Destination] [Days]-Day Itinerary Based on Real-Time Data ===
+        
+        DATA SOURCES: Real-time web scraping
         
         Day 1: Arrival and City Exploration
         - 9:00-12:00: Visit [Attraction Name]
@@ -133,14 +107,17 @@ config:
           Recommended dishes: [Specific dishes]
           Average cost: [Price range]
         
-        [Continue with other time slots...]
+        [Continue with other time slots and days...]
         
         === Real-Time Data Insights ===
         [Integrate useful information from insights]
         
         === Budget Estimate ===
         Total estimated cost: $XXXX
-        Daily average cost: $XXX"
+        Daily average cost: $XXX
+        
+        === Practical Tips ===
+        [Travel advice based on real-time data]"
         
         Send completion event:
         send_event(
@@ -150,11 +127,54 @@ config:
             "project_id": "<from payload.project_id>",
             "itinerary": "<enhanced itinerary text>",
             "enhanced_with_realtime_data": true,
-            "data_sources": "<data sources used>"
+            "data_sources": "web scraping + information analysis"
           }
         )
         
         Finally call finish() to complete the task
+
+    - event: "info.scraping.failed"
+      instruction: |
+        Web scraping failed. Fall back to generating itinerary using LLM knowledge.
+        
+        Execution steps:
+        1. Extract payload.project_id
+        2. Generate detailed itinerary based on LLM knowledge (without real-time data)
+        
+        Itinerary format:
+        "=== [Destination] [Days]-Day Itinerary ===
+        
+        Note: Generated using AI knowledge (real-time data unavailable)
+        
+        Day 1: Arrival and City Exploration
+        - 9:00-12:00: Visit [Attraction Name]
+          Address: [Specific Address]
+          Highlights: [Attraction Features]
+          Ticket: [Estimated Price]
+          Recommended Duration: [Time]
+          Transportation: [Specific Method]
+        
+        [Continue with other time slots and days...]
+        
+        === Budget Estimate ===
+        Total Budget Estimate: $XXXX
+        Daily Average: $XXX
+        
+        === Practical Tips ===
+        [Travel advice and notes]"
+        
+        Send completion event:
+        send_event(
+          event_name="route.planned", 
+          destination_id="coordinator",
+          payload={
+            "project_id": "<from payload.project_id>",
+            "itinerary": "<detailed itinerary text>",
+            "enhanced_with_realtime_data": false
+          }
+        )
+        
+        Call finish() to complete task
 
 mods:
   - name: "openagents.mods.workspace.default"

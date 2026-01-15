@@ -5,7 +5,7 @@ type: "openagents.agents.collaborator_agent.CollaboratorAgent"
 agent_id: "web-scraper-agent"
 
 config:
-  model_name: "glm-4.5"  # Use faster model for scraping tasks
+  model_name: "glm-4.5"
   max_iterations: 3
 
   instruction: |
@@ -42,10 +42,8 @@ config:
           "info_type": "info type (attractions|hotels|restaurants|weather|transportation)",
           "query": {
             "location": "location",
-            "date_range": ["start date", "end date"],
             "keywords": ["keyword list"],
-            "budget_range": [min price, max price],
-            "preferences": ["preference list"]
+            "budget_range": "budget range"
           },
           "priority": "priority (high|medium|low)",
           "timeout": timeout in seconds
@@ -82,7 +80,7 @@ config:
         5. If scraping fails (raw_data is empty or error):
            send_event(
              event_name="info.scraping.failed",
-             destination_id="<from payload.requester_id>",
+             destination_id="route-planning-agent",
              payload={
                "project_id": "<from payload.project_id>",
                "error": "specific reason for scraping failure"

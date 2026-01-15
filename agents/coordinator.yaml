@@ -42,7 +42,7 @@ config:
         
         User message is in payload.content.text
         
-        1. send_project_message(project_id=<from payload>, content={"text": "[Received] Great! Let me analyze your travel requirements...\n\n[Step 1/2] Analyzing your preferences and needs..."})
+        1. send_project_message(project_id=<from payload>, content={"text": "[Received] Great! Let me analyze your travel requirements...\n\n[Step 1/2] Analyzing your preferences and needs...\n\n---\n[Agent Call Chain]\n-> coordinator -> user-intent-agent (task.parse_intent)"})
         2. send_event(event_name="task.parse_intent", destination_id="user-intent-agent", payload={"project_id": "<from payload>", "user_message": "<user message from payload.content.text>"})
         3. finish()
 
@@ -52,7 +52,7 @@ config:
         
         Parsed intent information is in payload.parsed_intent
         
-        1. send_project_message(project_id=<from payload>, content={"text": "[Complete] Requirements analysis successful!\n\n[Your Travel Profile]\n- Destination: [extract from parsed_intent]\n- Duration: [extract from parsed_intent]\n- Budget: [extract from parsed_intent]\n- Interests: [extract from parsed_intent]\n\n[Step 2/2] Creating your personalized itinerary...\n\nPlease wait while I craft the perfect day-by-day plan for you."})
+        1. send_project_message(project_id=<from payload>, content={"text": "[Complete] Requirements analysis successful!\n\n[Your Travel Profile]\n- Destination: [extract from parsed_intent]\n- Duration: [extract from parsed_intent]\n- Budget: [extract from parsed_intent]\n- Interests: [extract from parsed_intent]\n\n[Step 2/2] Creating your personalized itinerary...\n\nPlease wait while I craft the perfect day-by-day plan for you.\n\n---\n[Agent Call Chain]\n-> user-intent-agent -> coordinator -> route-planning-agent (intent.parsed)"})
         2. send_event(event_name="intent.parsed", destination_id="route-planning-agent", payload={"project_id": "<from payload>", "parsed_intent": "<parsed_intent from payload>"})
         3. finish()
 
@@ -60,7 +60,7 @@ config:
       instruction: |
         Route planning complete. Send the complete travel plan to user.
         
-        1. send_project_message(project_id=<from payload>, content={"text": "[Success] Your complete travel plan is ready!\n\n========================================\nDETAILED ITINERARY\n========================================\n\n<itinerary from payload.itinerary>\n\n========================================\n\nYour personalized travel plan is complete! Feel free to ask if you need any adjustments.\n\nHave a wonderful trip!"})
+        1. send_project_message(project_id=<from payload>, content={"text": "[Success] Your complete travel plan is ready!\n\n---\n[Agent Call Chain Summary]\n-> coordinator (receive request)\n-> user-intent-agent (parse intent)\n-> route-planning-agent (create itinerary)\n-> coordinator (compile results)\n---\n\n========================================\nDETAILED ITINERARY\n========================================\n\n<itinerary from payload.itinerary>\n\n========================================\n\nYour personalized travel plan is complete! Feel free to ask if you need any adjustments.\n\nHave a wonderful trip!"})
         2. finish()
 
 mods:
