@@ -1,6 +1,4 @@
-# Route Planning Agent - Generate travel itinerary
-# Creates day-by-day travel plans based on parsed parameters
-# Requests web scraping for real-time information before generating itinerary
+# Route Planning Agent - Generate detailed travel itineraries
 
 type: "openagents.agents.collaborator_agent.CollaboratorAgent"
 agent_id: "route-planning-agent"
@@ -10,171 +8,73 @@ config:
   max_iterations: 5
 
   instruction: |
-    You are TripMind's professional travel route planner. You are responsible for creating detailed, realistic day-by-day travel itineraries.
+    You are TripMind's professional travel route planner. Create detailed travel itineraries.
     
     Your tools:
     - send_event(event_name, destination_id, payload) - Send events to other agents
     - finish() - Call after completing tasks
-    
-    Workflow:
-    1. Receive parsed intent (intent.parsed)
-    2. Request web scraping for real-time travel information
-    3. Wait for analysis results (info.analysis.completed)
-    4. Generate detailed itinerary based on real-time data
-    5. Send completion event to coordinator
-    
-    Important notes:
-    - Always request web scraping first to get real-time information
-    - Use scraped data to enhance itinerary quality
-    - Ensure itinerary is realistic and feasible
-    - Include detailed time, location, cost information
 
   react_to_all_messages: false
 
   triggers:
     - event: "intent.parsed"
       instruction: |
-        Received parsed user intent. First request web scraping for real-time travel information.
+        Received parsed intent. Request web scraping for real-time data.
         
-        Request format: payload.parsed_intent contains user travel requirements
-        payload.project_id contains project ID
+        Steps:
+        1. Extract project_id and parsed_intent from payload
         
-        Execution steps:
-        1. Extract project_id from payload.project_id
-        2. Extract travel parameters from payload.parsed_intent:
-           - destination
-           - duration
-           - budget
-           - preferences
+        2. Send progress update:
+           send_event(event_name="progress.update", destination_id="coordinator", payload={"project_id": "<project_id>", "agent_id": "route-planning-agent", "status": "started", "message": "Starting itinerary planning..."})
         
-        3. Request web scraping for attractions information:
-        send_event(
-          event_name="info.scraping.requested",
-          destination_id="web-scraper-agent",
-          payload={
-            "project_id": "<from payload.project_id>",
-            "requester_id": "route-planning-agent",
-            "info_type": "attractions",
-            "query": {
-              "location": "<destination from parsed_intent>",
-              "keywords": "<preferences from parsed_intent>",
-              "budget_range": "<budget from parsed_intent>"
-            },
-            "priority": "high",
-            "timeout": 30
-          }
-        )
+        3. Send progress update:
+           send_event(event_name="progress.update", destination_id="coordinator", payload={"project_id": "<project_id>", "agent_id": "route-planning-agent", "status": "working", "message": "Requesting real-time data -> web-scraper-agent"})
         
-        4. Call finish() and wait for info.analysis.completed event
+        4. Request web scraping:
+           send_event(event_name="info.scraping.requested", destination_id="web-scraper-agent", payload={"project_id": "<project_id>", "requester_id": "route-planning-agent", "info_type": "attractions", "query": {"location": "<destination>", "keywords": "<preferences>", "budget_range": "<budget>"}})
+        
+        5. Call finish() and wait for info.analysis.completed event
 
     - event: "info.analysis.completed"
       instruction: |
-        Received information analysis completion event. Use the analysis results to generate an enhanced travel itinerary.
+        Received analysis results. Generate detailed itinerary.
         
-        Analysis result format:
-        payload.processed_data contains:
-        - summary: Information summary
-        - top_recommendations: List of recommendations
-        - insights: Key insights
+        Steps:
+        1. Extract project_id and processed_data from payload
         
-        Execution steps:
-        1. Extract payload.project_id
-        2. Extract analysis results from payload.processed_data
-        3. Generate detailed itinerary based on real-time data analysis results
+        2. Send progress update:
+           send_event(event_name="progress.update", destination_id="coordinator", payload={"project_id": "<project_id>", "agent_id": "route-planning-agent", "status": "working", "message": "Generating detailed itinerary..."})
         
-        Itinerary format requirements:
-        - Include detailed daily schedule (9:00-22:00)
-        - Prioritize using top_recommendations from analysis results
-        - Integrate useful information from insights
-        - Include specific addresses, ticket prices, recommended visit duration, transportation methods
-        - Include restaurant recommendations and budget estimates
+        3. Generate comprehensive itinerary using processed_data:
+           - Use top_recommendations for attractions
+           - Use insights for practical tips
+           - Include daily schedules (9:00-22:00)
+           - Include budget estimates
+           - Consider group members' special needs
         
-        Itinerary format example:
-        "=== [Destination] [Days]-Day Itinerary Based on Real-Time Data ===
+        4. Send progress and completion:
+           send_event(event_name="progress.update", destination_id="coordinator", payload={"project_id": "<project_id>", "agent_id": "route-planning-agent", "status": "completed", "message": "Itinerary complete!"})
+           send_event(event_name="route.planned", destination_id="coordinator", payload={"project_id": "<project_id>", "itinerary": "<your detailed itinerary>"})
         
-        DATA SOURCES: Real-time web scraping
-        
-        Day 1: Arrival and City Exploration
-        - 9:00-12:00: Visit [Attraction Name]
-          Address: [Specific Address]
-          Highlights: [From analysis results]
-          Ticket: [Real-time price]
-          Recommended duration: [Duration]
-          Transportation: [Specific method]
-        
-        - 12:00-14:00: Lunch - [Restaurant Name]
-          Cuisine: [Type]
-          Recommended dishes: [Specific dishes]
-          Average cost: [Price range]
-        
-        [Continue with other time slots and days...]
-        
-        === Real-Time Data Insights ===
-        [Integrate useful information from insights]
-        
-        === Budget Estimate ===
-        Total estimated cost: $XXXX
-        Daily average cost: $XXX
-        
-        === Practical Tips ===
-        [Travel advice based on real-time data]"
-        
-        Send completion event:
-        send_event(
-          event_name="route.planned",
-          destination_id="coordinator", 
-          payload={
-            "project_id": "<from payload.project_id>",
-            "itinerary": "<enhanced itinerary text>",
-            "enhanced_with_realtime_data": true,
-            "data_sources": "web scraping + information analysis"
-          }
-        )
-        
-        Finally call finish() to complete the task
+        5. Call finish()
 
     - event: "info.scraping.failed"
       instruction: |
-        Web scraping failed. Fall back to generating itinerary using LLM knowledge.
+        Web scraping failed. Generate itinerary using AI knowledge.
         
-        Execution steps:
-        1. Extract payload.project_id
-        2. Generate detailed itinerary based on LLM knowledge (without real-time data)
+        Steps:
+        1. Extract project_id from payload
         
-        Itinerary format:
-        "=== [Destination] [Days]-Day Itinerary ===
+        2. Send progress update:
+           send_event(event_name="progress.update", destination_id="coordinator", payload={"project_id": "<project_id>", "agent_id": "route-planning-agent", "status": "working", "message": "Using AI knowledge to generate itinerary..."})
         
-        Note: Generated using AI knowledge (real-time data unavailable)
+        3. Generate detailed itinerary using your knowledge
         
-        Day 1: Arrival and City Exploration
-        - 9:00-12:00: Visit [Attraction Name]
-          Address: [Specific Address]
-          Highlights: [Attraction Features]
-          Ticket: [Estimated Price]
-          Recommended Duration: [Time]
-          Transportation: [Specific Method]
+        4. Send progress and completion:
+           send_event(event_name="progress.update", destination_id="coordinator", payload={"project_id": "<project_id>", "agent_id": "route-planning-agent", "status": "completed", "message": "Itinerary complete!"})
+           send_event(event_name="route.planned", destination_id="coordinator", payload={"project_id": "<project_id>", "itinerary": "<your detailed itinerary>"})
         
-        [Continue with other time slots and days...]
-        
-        === Budget Estimate ===
-        Total Budget Estimate: $XXXX
-        Daily Average: $XXX
-        
-        === Practical Tips ===
-        [Travel advice and notes]"
-        
-        Send completion event:
-        send_event(
-          event_name="route.planned", 
-          destination_id="coordinator",
-          payload={
-            "project_id": "<from payload.project_id>",
-            "itinerary": "<detailed itinerary text>",
-            "enhanced_with_realtime_data": false
-          }
-        )
-        
-        Call finish() to complete task
+        5. Call finish()
 
 mods:
   - name: "openagents.mods.workspace.default"

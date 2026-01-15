@@ -36,6 +36,19 @@ config:
         1. send_project_message(project_id=<from payload>, content={"text": "Welcome to TripMind - Your AI Travel Planning Assistant!\n\nI will help you create the perfect travel itinerary. Here's how it works:\n\n[1] Tell me your travel plans (destination, dates, budget, preferences)\n[2] I will create a detailed day-by-day itinerary for you\n\nPlease share your travel plans, for example:\n'I want to travel to Tokyo for 5 days with a budget of $3000. I like temples, museums, and local food.'\n\nLet's start planning your amazing trip!"})
         2. finish()
 
+    - event: "progress.update"
+      instruction: |
+        Received progress update from an agent. Display it to user.
+        
+        payload contains:
+        - project_id: project ID
+        - agent_id: which agent is reporting
+        - status: current status (started/working/completed)
+        - message: progress message
+        
+        1. send_project_message(project_id=<from payload.project_id>, content={"text": "[Agent: <payload.agent_id>] <payload.message>"})
+        2. finish()
+
     - event: "project.notification.message_received"
       instruction: |
         User sent a travel request message. Delegate to user-intent-agent for parsing.
@@ -52,7 +65,7 @@ config:
         
         Parsed intent information is in payload.parsed_intent
         
-        1. send_project_message(project_id=<from payload>, content={"text": "[Complete] Requirements analysis successful!\n\n[Your Travel Profile]\n- Destination: [extract from parsed_intent]\n- Duration: [extract from parsed_intent]\n- Budget: [extract from parsed_intent]\n- Interests: [extract from parsed_intent]\n\n[Step 2/2] Creating your personalized itinerary...\n\nPlease wait while I craft the perfect day-by-day plan for you.\n\n---\n[Agent Call Chain]\n-> user-intent-agent -> coordinator -> route-planning-agent (intent.parsed)"})
+        1. send_project_message(project_id=<from payload>, content={"text": "[Complete] Requirements analysis successful!\n\n[Your Travel Profile]\n- Destination: [extract from parsed_intent]\n- Duration: [extract from parsed_intent]\n- Budget: [extract from parsed_intent]\n- Interests: [extract from parsed_intent]\n\n[Step 2/2] Creating your personalized itinerary...\n\nPlease wait while I craft the perfect day-by-day plan for you......\n\n---\n[Agent Call Chain]\n-> user-intent-agent -> coordinator -> route-planning-agent (intent.parsed)"})
         2. send_event(event_name="intent.parsed", destination_id="route-planning-agent", payload={"project_id": "<from payload>", "parsed_intent": "<parsed_intent from payload>"})
         3. finish()
 

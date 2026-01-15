@@ -2,9 +2,28 @@
 
 基于 OpenAgents 框架的多 Agent 旅行规划系统。
 
+## 环境要求
+
+- Python 3.10+
+- Conda（推荐）
+- 智谱 AI API Key（从 https://open.bigmodel.cn/ 获取）
+
 ## 快速启动
 
-### 1. 配置 API Key
+### 1. 创建 Python 环境
+
+```bash
+conda create -n openagents python=3.10
+conda activate openagents
+```
+
+### 2. 安装 OpenAgents
+
+```bash
+pip install openagents
+```
+
+### 3. 配置 API Key
 
 复制示例文件并设置 API Key：
 ```batch
@@ -16,19 +35,19 @@ copy start_network.bat.example start_network.bat
 set ZHIPUAI_API_KEY=your-api-key-here
 ```
 
-### 2. 启动 Network
+### 4. 启动 Network
 
 ```bash
 start_network.bat
 ```
 
-### 3. 启动 Agent
+### 5. 启动 Agent
 
 ```bash
 start_agents.bat
 ```
 
-### 4. 访问 Studio
+### 6. 访问 Studio
 
 打开浏览器：http://localhost:8700
 

@@ -24,6 +24,9 @@ config:
       instruction: |
         Parse the user travel request from payload.user_message.
         
+        FIRST: Send progress update to coordinator
+        send_event(event_name="progress.update", destination_id="coordinator", payload={"project_id": "<from payload.project_id>", "agent_id": "user-intent-agent", "status": "started", "message": "Parsing your travel requirements..."})
+        
         Extract these parameters with DETAILED analysis:
         
         1. DESTINATION:
@@ -70,6 +73,8 @@ config:
         Format the output as a structured summary that's easy to read.
         
         Then send the parsed result back to coordinator:
+        
+        send_event(event_name="progress.update", destination_id="coordinator", payload={"project_id": "<from payload.project_id>", "agent_id": "user-intent-agent", "status": "completed", "message": "Intent parsing complete!"})
         
         send_event(
           event_name="intent.parsed",
