@@ -1,6 +1,44 @@
 # TripMind - 群体旅行智能协调系统
 
+[English](README_EN.md) | 中文
+
 基于 OpenAgents 框架的多 Agent 旅行规划系统。
+
+## 项目简介
+
+TripMind 是基于 OpenAgents 框架的多 Agent 群体旅行规划系统。
+
+**解决的问题**：当一群人想一起旅行时，每个人的偏好、预算、身体状况都不一样，如何协调这些需求，生成一个让所有人都满意的行程方案？
+
+**三大痛点**：
+- **偏好冲突**：有人爱美食，有人爱冒险，有人爱购物
+- **预算差异**：成员预算从 8000 到 15000 不等
+- **特殊需求**：孕妇需要轻松行程，素食者需要特定餐厅
+
+**核心创新**：通过 9 个专业 Agent 协作，实现"意图解析 → 信息采集 → 智能规划"的完整链路。每个 Agent 专注单一职责，通过事件驱动机制协同工作，最终生成平衡所有成员需求的个性化行程方案。
+
+**OpenAgents 关键特性应用**：
+- 事件驱动架构：Agent 间通过 send_event 异步通信，松耦合协作
+- Triggers 机制：每个 Agent 监听特定事件，自动触发处理逻辑
+- 进度可视化：设计 progress.update 事件，用户可实时看到 Agent 调用链
+- workspace.project Mod：管理旅行项目生命周期
+- Studio 可视化：实时展示 Agent 协作过程
+
+## Agent 架构
+
+系统包含 9 个 Agent，分为四层：
+
+| 层级 | Agent | 职责 |
+|------|-------|------|
+| 核心协调层 | Coordinator | 接收请求、调度任务、汇总结果 |
+| 用户意图层 | User Intent | 解析自然语言，提取结构化信息 |
+| | Group Preference | 分析群体偏好，识别冲突 |
+| | Budget Balancer | 预算平衡，设计分层方案 |
+| | Health Care | 健康关怀，过滤不适合的活动 |
+| 信息采集层 | Web Scraper | 抓取实时旅行信息 |
+| | Information Analyzer | 数据分析和推荐排序 |
+| 规划执行层 | Route Planning | 生成详细行程表 |
+| | Dynamic Adjuster | 动态调整优化 |
 
 ## 环境要求
 
@@ -69,22 +107,6 @@ start_agents.bat
 ```
 
 ## Agent 调用链
-
-```
-[用户请求]
-     |
-     v
-Coordinator (协调器)
-     |
-     v
-User Intent Agent (意图解析)
-     |
-     v
-Route Planning Agent (行程规划)
-     |
-     v
-Coordinator (返回结果)
-```
 
 系统会显示当前调用的 Agent：
 ```
