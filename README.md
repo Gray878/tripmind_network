@@ -4,6 +4,8 @@
 
 基于 OpenAgents 框架的多 Agent 旅行规划系统。
 
+📄 [项目说明文档](https://oxb708x94fk.feishu.cn/wiki/UTxwwxE3uifqmFkvgwUcjzOtnXl) | 🎬 [演示视频](https://b23.tv/pbaMt6y)
+
 ## 项目简介
 
 TripMind 是基于 OpenAgents 框架的多 Agent 群体旅行规划系统。

@@ -4,6 +4,8 @@ English | [中文](README.md)
 
 A multi-agent travel planning system based on the OpenAgents framework.
 
+📄 [Documentation](https://oxb708x94fk.feishu.cn/wiki/UTxwwxE3uifqmFkvgwUcjzOtnXl) | 🎬 [Demo Video](https://b23.tv/pbaMt6y)
+
 ## Project Introduction
 
 TripMind is a multi-agent group travel planning system based on the OpenAgents framework.
